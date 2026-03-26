@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Untuk Kamu 💖</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  overflow:hidden;
+  background:black;
+  color:white;
+}
+
+/* SLIDE */
+.slide{
+  position:absolute;
+  width:100%;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  transition:1s ease-in-out;
+  opacity:0;
+}
+
+.active{
+  opacity:1;
+  z-index:1;
+}
+
+/* BACKGROUND */
+.bg1{ background:linear-gradient(135deg,#ff9a9e,#fad0c4); }
+.bg2{ background:linear-gradient(135deg,#a18cd1,#fbc2eb); }
+.bg3{ background:linear-gradient(135deg,#fbc2eb,#a6c1ee); }
+
+/* TEXT */
+h1{ font-size:35px; }
+p{ margin-top:10px; }
+
+/* BUTTON */
+button{
+  margin-top:20px;
+  padding:10px 25px;
+  border:none;
+  border-radius:20px;
+  background:white;
+  color:#ff4d6d;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+button:hover{
+  transform:scale(1.1);
+}
+
+/* GALERI */
+.galeri{
+  display:flex;
+  overflow-x:auto;
+  width:90%;
+}
+
+.galeri img{
+  width:200px;
+  margin:10px;
+  border-radius:15px;
+  transition:0.3s;
+}
+
+.galeri img:hover{
+  transform:scale(1.1);
+}
+
+/* INDIKATOR */
+.indikator{
+  position:absolute;
+  top:10px;
+  width:100%;
+  display:flex;
+}
+
+.bar{
+  flex:1;
+  height:3px;
+  margin:2px;
+  background:rgba(255,255,255,0.3);
+}
+
+.bar.active{
+  background:white;
+}
+
+/* LOVE */
+.love{
+  position:fixed;
+  font-size:20px;
+  animation: jatuh 5s linear;
+}
+
+@keyframes jatuh{
+  to{ transform:translateY(100vh); }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- AUDIO -->
+<audio id="music" loop>
+  <source src="Dimas.mp3" type="audio/mpeg">
+</audio>
+
+<!-- INDIKATOR -->
+<div class="indikator">
+  <div class="bar active"></div>
+  <div class="bar"></div>
+  <div class="bar"></div>
+</div>
+
+<!-- SLIDE 1 -->
+<div class="slide active bg1">
+  <h1>Hai Sayang 💖</h1>
+  <p>Aku punya sesuatu buat kamu...</p>
+  <button onclick="next()">Next</button>
+</div>
+
+<!-- SLIDE 2 -->
+<div class="slide bg2">
+  <h1>Aku Sayang Kamu 🥰</h1>
+  <p>Selalu ya 💕</p>
+  <button onclick="next()">Next</button>
+</div>
+
+<!-- SLIDE 3 -->
+<div class="slide bg3">
+  <h1>Kenangan Kita 📸</h1>
+
+  <div class="galeri">
+    <img src="CR1.jpg">
+    <img src="CR2.jpg">
+    <img src="CR3.jpg">
+    <img src="CR4.jpg">
+    <img src="CR5.jpg">
+    <img src="CR6.jpg">
+    <img src="CR7.jpg">
+    <img src="CR8.jpg">
+    <img src="CR9.jpg"
+   
+    </div>
+  <button onclick="next()">Ulang</button>
+</div>
+
+<script>
+
+/* SLIDE */
+let index=0;
+let slides=document.querySelectorAll(".slide");
+let bars=document.querySelectorAll(".bar");
+
+/* MUSIC */
+let music=document.getElementById("music");
+let sudahPlay=false;
+let volume=0;
+music.volume=0;
+
+/* FADE IN */
+function fadeIn(){
+  let fade=setInterval(()=>{
+    if(volume < 1){
+      volume += 0.05;
+      music.volume = volume;
+    } else {
+      clearInterval(fade);
+    }
+  },200);
+}
+
+/* NEXT */
+function next(){
+
+  // PLAY MUSIK SAAT KLIK PERTAMA
+  if(!sudahPlay){
+    music.play();
+    fadeIn();
+    sudahPlay=true;
+  }
+
+  slides[index].classList.remove("active");
+  bars[index].classList.remove("active");
+
+  index++;
+  if(index>=slides.length) index=0;
+
+  slides[index].classList.add("active");
+  bars[index].classList.add("active");
+}
+
+/* AUTO SLIDE */
+
+/* LOVE ANIMATION */
+setInterval(()=>{
+  let love=document.createElement("div");
+  love.className="love";
+  love.innerHTML="💖";
+  love.style.left=Math.random()*100+"%";
+  love.style.top="-10px";
+
+  document.body.appendChild(love);
+
+  setTimeout(()=>love.remove(),5000);
+},500);
+
+</script>
+
+</body>
+</html>
